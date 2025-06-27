@@ -1,22 +1,22 @@
 import React, { useRef, useState } from 'react';
 import './App.css';
-import { FaNodeJs, FaDatabase, FaServer, FaGitAlt, FaReact, FaMemory, FaJenkins, FaJs, FaHtml5, FaCss3Alt, FaPlug, FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaNodeJs, FaDatabase, FaServer, FaGitAlt, FaReact, FaJenkins, FaJs, FaHtml5, FaCss3Alt, FaPlug, FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import emailjs from 'emailjs-com';
 
-const skills = [
-  { icon: <FaNodeJs />, name: 'Node.js' },
-  { icon: <FaDatabase />, name: 'MongoDB' },
-  { icon: <FaServer />, name: 'Express' },
-  { icon: <FaGitAlt />, name: 'Git' },
-  { icon: <FaReact />, name: 'React JS' },
-  { icon: <FaMemory />, name: 'Redis' },
-  { icon: <FaJenkins />, name: 'Jenkins' },
-  { icon: <FaJs />, name: 'JavaScript' },
-  { icon: <FaJs />, name: 'TypeScript' },
-  { icon: <FaHtml5 />, name: 'HTML5' },
-  { icon: <FaCss3Alt />, name: 'CSS3' },
-  { icon: <FaPlug />, name: 'Socket.IO' },
-];
+// const skills = [
+//   { icon: <FaNodeJs />, name: 'Node.js' },
+//   { icon: <FaDatabase />, name: 'MongoDB' },
+//   { icon: <FaServer />, name: 'Express' },
+//   { icon: <FaGitAlt />, name: 'Git' },
+//   { icon: <FaReact />, name: 'React JS' },
+//   { icon: <FaMemory />, name: 'Redis' },
+//   { icon: <FaJenkins />, name: 'Jenkins' },
+//   { icon: <FaJs />, name: 'JavaScript' },
+//   { icon: <FaJs />, name: 'TypeScript' },
+//   { icon: <FaHtml5 />, name: 'HTML5' },
+//   { icon: <FaCss3Alt />, name: 'CSS3' },
+//   { icon: <FaPlug />, name: 'Socket.IO' },
+// ];
 
 const projects = [
   {
