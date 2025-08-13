@@ -36,7 +36,7 @@ function Navigation() {
           <li><button onClick={() => handleSectionClick('work')} className="nav-link-btn">Work Experience</button></li>
           <li><button onClick={() => handleSectionClick('education')} className="nav-link-btn">Education</button></li>
           <li><button onClick={() => handleSectionClick('projects')} className="nav-link-btn">Projects</button></li>
-          <li><button onClick={() => handleSectionClick('blog')} className="nav-link-btn">Blog</button></li>
+          <li><Link to="/blog">Blog</Link></li>
           <li><button onClick={() => handleSectionClick('contact')} className="nav-link-btn">Contact</button></li>
         </ul>
       </div>

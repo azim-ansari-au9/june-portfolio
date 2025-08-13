@@ -1,6 +1,8 @@
 import React from "react";
 import "./Blog.css";
 import Navigation from "./Navigation";
+import { SEOTags } from "./SEO";
+import AdSlot from "./AdSlot";
 
 const blogPosts = [
 	{
@@ -152,11 +154,17 @@ function Blog() {
 	if (selectedPost) {
 		return (
 			<div className="blog-post-detail">
-        <div className="portfolio-root">
-				<Navigation />
+        <SEOTags
+          title={`${selectedPost.title} | Blog | Azim Ansari`}
+          description={selectedPost.excerpt}
+          path={`/blog`}
+          image="/azim.jpg"
+        />
+        <Navigation />
+        <div className="blog-inner">
 				<div className="blog-post-header">
 					<button className="back-button" onClick={handleBackClick}>
-						← Back to Blog
+						 Back to Blog
 					</button>
 					<div className="post-meta">
 						<span className="post-category">{selectedPost.category}</span>
@@ -176,17 +184,22 @@ function Blog() {
 					className="post-content"
 					dangerouslySetInnerHTML={{ __html: selectedPost.content }}
 				/>
+          <AdSlot slot="9876543210" />
         </div>
-
 			</div>
 		);
 	}
 
 	return (
 		<div className="blog-container">
-			<div className="portfolio-root">
-				<Navigation />
-				{/* <Navigation /> */}
+			<SEOTags
+				title="Blog | Azim Ansari"
+				description="Thoughts on software development, Node.js, and building scalable applications."
+				path="/blog"
+				image="/azim.jpg"
+			/>
+			<Navigation />
+      <div className="blog-inner">
 				<div className="blog-header">
 					<h1>Blog</h1>
 					<p>
@@ -194,6 +207,8 @@ function Blog() {
 						applications
 					</p>
 				</div>
+
+        <AdSlot slot="2468135790" />
 
 				<div className="blog-grid">
 					{blogPosts.map((post) => (
@@ -217,10 +232,11 @@ function Blog() {
 									))}
 								</div>
 							</div>
+              <button className="btn small" onClick={(e) => { e.stopPropagation(); handlePostClick(post); }}>View Details</button>
 						</article>
 					))}
 				</div>
-			</div>
+      </div>
 		</div>
 	);
 }
