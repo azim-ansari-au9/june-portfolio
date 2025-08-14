@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import { FaNodeJs, FaDatabase, FaServer, FaGitAlt, FaReact, FaJenkins, FaJs, FaHtml5, FaCss3Alt, FaPlug, FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaNodeJs, FaDatabase, FaServer, FaGitAlt, FaReact, FaJenkins, FaJs, FaHtml5, FaCss3Alt, FaPlug, FaGithub, FaLinkedin, FaTwitter, FaWhatsapp } from 'react-icons/fa';
 import emailjs from 'emailjs-com';
 import Navigation from './Navigation';
 import Blog from './Blog';
@@ -11,6 +11,8 @@ import AdSlot from './AdSlot';
 import { Link } from 'react-router-dom';
 import PrivacyPolicy from './PrivacyPolicy';
 import FAQ from './FAQ';
+import ChatBot from './ChatBot';
+// import './ChatBot.css';
 
 // const skills = [
 //   { icon: <FaNodeJs />, name: 'Node.js' },
@@ -122,63 +124,43 @@ const workExperience = [
 ];
 
 function PortfolioContent() {
-  const formRef = useRef();
-  const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
-  const [error, setError] = useState(null);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
+  const formRef = useRef();
 
-  // Compute tenure (months) for each role for progress bars
-  const monthIndex = {
-    january: 0, february: 1, march: 2, april: 3, may: 4, june: 5,
-    july: 6, august: 7, september: 8, october: 9, november: 10, december: 11
-  };
+  // Calculate months for work experience
   const parsePeriodToMonths = (period) => {
-    if (!period) return 1;
-    // Expect formats like: "September 2023 - Currently" or "June 2023 - August 2023"
-    const parts = period.split('-').map(p => p.trim());
-    if (parts.length !== 2) return 1;
-    const [startStr, endStrRaw] = parts;
-    const startMatch = startStr.match(/([A-Za-z]+)\s+(\d{4})/);
-    if (!startMatch) return 1;
-    const startMonthName = startMatch[1].toLowerCase();
-    const startYear = parseInt(startMatch[2], 10);
-    const startMonth = monthIndex[startMonthName] ?? 0;
-
-    const endClean = endStrRaw.toLowerCase();
-    let endYear, endMonth;
-    if (/(current|present|currently)/.test(endClean)) {
-      const now = new Date();
-      endYear = now.getFullYear();
-      endMonth = now.getMonth();
-    } else {
-      const endMatch = endStrRaw.match(/([A-Za-z]+)\s+(\d{4})/);
-      if (!endMatch) return 1;
-      endMonth = monthIndex[endMatch[1].toLowerCase()] ?? 0;
-      endYear = parseInt(endMatch[2], 10);
-    }
-
-    const months = (endYear - startYear) * 12 + (endMonth - startMonth + 1);
-    return Math.max(1, months);
+    const parts = period.toLowerCase().split(' - ');
+    const start = parts[0];
+    const end = parts[1] === 'currently' ? new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }).toLowerCase() : parts[1];
+    
+    const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+    
+    const parseDate = (dateStr) => {
+      const [month, year] = dateStr.split(' ');
+      return { month: monthNames.indexOf(month), year: parseInt(year) };
+    };
+    
+    const startDate = parseDate(start);
+    const endDate = parseDate(end);
+    
+    return (endDate.year - startDate.year) * 12 + (endDate.month - startDate.month) + 1;
   };
 
-  const rolesWithMonths = workExperience.map(exp => ({
+  const workExperienceWithMonths = workExperience.map(exp => ({
     ...exp,
     months: parsePeriodToMonths(exp.period)
   }));
-  const maxMonths = Math.max(...rolesWithMonths.map(r => r.months));
+
+  const maxMonths = Math.max(...workExperienceWithMonths.map(exp => exp.months));
 
   const sendEmail = (e) => {
     e.preventDefault();
     setSending(true);
-    setSent(false);
-    setError(null);
-    emailjs.sendForm(
-      'service_n6wt87c', // Service ID
-      'template_8fc0ptc', // Provided EmailJS template ID
-      formRef.current,
-      // "azimpanjwar@gmail.com"
-      'qdRl2GcH5tRZsrWK3' // Provided EmailJS user ID (public key)
-    )
+    setError('');
+
+    emailjs.sendForm('service_8n4ysxj', 'template_yfvqzjq', formRef.current, 'aMJGOYfBZBhqYYEOb')
     .then((result) => {
       setSending(false);
       setSent(true);
@@ -187,6 +169,14 @@ function PortfolioContent() {
       setSending(false);
       setError('Failed to send. Please try again.');
     });
+  };
+
+  // Local WhatsApp handler for social links
+  const handleWhatsAppClick = () => {
+    const phoneNumber = '+917488023980';
+    const message = encodeURIComponent('Hi Azim! I found your portfolio and would like to connect with you.');
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappURL, '_blank');
   };
 
   return (
@@ -256,7 +246,7 @@ function PortfolioContent() {
       <section id="work" className="work">
         <div className="modern-work-timeline">
           <h2>Work Experience</h2>
-          {rolesWithMonths.map((exp, idx) => (
+          {workExperienceWithMonths.map((exp, idx) => (
             <div className="modern-work-card" key={idx}>
               <div className="modern-work-header">
                 <div className="modern-work-logo">{/* Logo Placeholder */}</div>
@@ -337,9 +327,21 @@ function PortfolioContent() {
             <a href="https://github.com/azim-ansari-au9" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
             <a href="https://www.linkedin.com/in/azim-ansari-37aa421a6/" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
             <a href="https://twitter.com/azimpanjwar" target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
+            <button onClick={handleWhatsAppClick} className="whatsapp-btn" title="Connect on WhatsApp">
+              <FaWhatsapp />
+            </button>
           </div>
         </div>
       </section>
+      
+      {/* Floating WhatsApp Button */}
+      <div className="floating-whatsapp" onClick={handleWhatsAppClick} title="Chat on WhatsApp">
+        <FaWhatsapp />
+      </div>
+
+      {/* AI ChatBot */}
+      <ChatBot />
+
       <footer>
         <p>&copy; {new Date().getFullYear()} Azim Ansari. All rights reserved.</p>
         <p>
@@ -353,6 +355,13 @@ function PortfolioContent() {
 }
 
 function App() {
+  // Global WhatsApp handler
+  const handleWhatsAppClick = () => {
+    const phoneNumber = '+917488023980';
+    const message = encodeURIComponent('Hi Azim! I found your portfolio and would like to connect with you.');
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappURL, '_blank');
+  };
   return (
     <HelmetProvider>
       <Router>
@@ -362,6 +371,11 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/faq" element={<FAQ />} />
         </Routes>
+        {/* Global floating buttons - visible on all pages */}
+        <div className="floating-whatsapp" onClick={handleWhatsAppClick}>
+          <FaWhatsapp />
+        </div>
+        <ChatBot />
       </Router>
     </HelmetProvider>
   );
