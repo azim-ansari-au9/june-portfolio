@@ -57,7 +57,7 @@ const ChatBot = () => {
     
     // Contact related
     if (message.includes('contact') || message.includes('reach') || message.includes('connect')) {
-      return "You can connect with Azim through:\n\n• Email: Use the contact form on this page\n• WhatsApp: Click the WhatsApp button for instant messaging\n• LinkedIn: linkedin.com/in/azim-ansari-37aa421a6/\n• GitHub: github.com/azim-ansari-au9\n• Twitter: @azimpanjwar";
+      return "You can connect with Azim through:\n\n• Email: Use the contact form on this page\n• WhatsApp: Click the WhatsApp button for instant messaging\n• Mobile: You can call him on number 7739945298\n• LinkedIn: linkedin.com/in/azim-ansari-37aa421a6/\n• GitHub: github.com/azim-ansari-au9\n• Twitter: @azimpanjwar";
     }
     
     // Location related
