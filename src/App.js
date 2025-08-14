@@ -84,7 +84,7 @@ const workExperience = [
   {
     company: 'NativeByte Software LLP',
     title: 'Software Development Engineer 1',
-    period: 'September 2023 - Currently',
+    period: 'September 2023 - May 2025',
     location: 'Noida, India',
     type: 'Hybrid',
     details: 'Worked as SDE-I, contributing to the architecture for UPSC and network marketing concepts. Gained expertise in Node.js, MongoDB, Express, MySQL, and Socket.io, while acquiring strong knowledge of core software engineering and system design principles.'
@@ -153,7 +153,7 @@ function PortfolioContent() {
     months: parsePeriodToMonths(exp.period)
   }));
 
-  const maxMonths = Math.max(...workExperienceWithMonths.map(exp => exp.months));
+  // const maxMonths = Math.max(...workExperienceWithMonths.map(exp => exp.months));
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -243,37 +243,43 @@ function PortfolioContent() {
           <div className="skill-card"><span className="skill-icon"></span>NGROK</div>
         </div>
       </section>
-      <section id="work" className="work">
-        <div className="modern-work-timeline">
+      <section id="work" className="work-experience">
+        <div className="work-container">
           <h2>Work Experience</h2>
-          {workExperienceWithMonths.map((exp, idx) => (
-            <div className="modern-work-card" key={idx}>
-              <div className="modern-work-header">
-                <div className="modern-work-logo">{/* Logo Placeholder */}</div>
-                <div>
-                  <h3>{exp.company}</h3>
-                  <div className="modern-work-meta">
-                    <span className="modern-work-period">{exp.period}</span>
-                    <span className="modern-work-type">{exp.type}</span>
-                    <span className="modern-work-location">{exp.location}</span>
+          <div className="work-cards-grid">
+            {workExperienceWithMonths.map((exp, idx) => (
+              <div className="work-card" key={idx}>
+                <div className="work-card-header">
+                  <div className="work-company-info">
+                    <h3 className="company-name">{exp.company}</h3>
+                    <h4 className="job-title">{exp.title}</h4>
+                  </div>
+                  <div className="work-duration">
+                    <span className="duration-badge">{exp.months} months</span>
                   </div>
                 </div>
-              </div>
-              <div className="modern-work-title">{exp.title}</div>
-              <div className="modern-work-details">{exp.details}</div>
+                
+                <div className="work-meta">
+                  <div className="work-meta-item">
+                    <span className="meta-label">Period:</span>
+                    <span className="meta-value">{exp.period}</span>
+                  </div>
+                  <div className="work-meta-item">
+                    <span className="meta-label">Type:</span>
+                    <span className="meta-value">{exp.type}</span>
+                  </div>
+                  <div className="work-meta-item">
+                    <span className="meta-label">Location:</span>
+                    <span className="meta-value">{exp.location}</span>
+                  </div>
+                </div>
 
-              <div className="tenure-progress" aria-label={`Tenure progress for ${exp.company}`}>
-                <div
-                  className="tenure-progress-fill"
-                  style={{ width: `${Math.round((exp.months / maxMonths) * 100)}%` }}
-                />
+                <div className="work-description">
+                  <p>{exp.details}</p>
+                </div>
               </div>
-              <div className="tenure-progress-meta">
-                <span>{exp.period}</span>
-                <span>{exp.months} months</span>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
       <section id="education" className="education">
