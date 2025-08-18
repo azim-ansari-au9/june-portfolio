@@ -156,7 +156,7 @@ function PortfolioContent() {
   // Derived hero stats from existing content
   // const totalMonths = workExperienceWithMonths.reduce((sum, exp) => sum + (exp.months || 0), 0);
   const yearsExperience =4.7;
-  const projectsCompleted = projects.length;
+  const projectsCompleted = 15;
   // Count of technologies represented in Skills section (kept consistent with visible list)
   const technologiesMastered = 8;
   const companiesWorkedWith = workExperience.length;
