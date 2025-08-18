@@ -153,6 +153,14 @@ function PortfolioContent() {
     months: parsePeriodToMonths(exp.period)
   }));
 
+  // Derived hero stats from existing content
+  // const totalMonths = workExperienceWithMonths.reduce((sum, exp) => sum + (exp.months || 0), 0);
+  const yearsExperience =4.7;
+  const projectsCompleted = projects.length;
+  // Count of technologies represented in Skills section (kept consistent with visible list)
+  const technologiesMastered = 8;
+  const companiesWorkedWith = workExperience.length;
+
   // const maxMonths = Math.max(...workExperienceWithMonths.map(exp => exp.months));
 
   const sendEmail = (e) => {
@@ -189,15 +197,53 @@ function PortfolioContent() {
       />
       <Navigation />
       <section id="home" className="hero">
-        <div className="hero-content">
-          <h1>Hi, I'm <span className="highlight">Azim Ansari</span></h1>
-          <p className="subtitle">Software Development Engineer.</p>
-          <p className="subtitle">Node.js Developer | Specialized in JavaScript, Node.js, Express.js, MongoDB, AWS, React | Building High-Performance Applications.</p>
-          <div className="cta-buttons">
-            <a href="#contact" className="btn primary">Contact Me</a>
-            <a href="#skills" className="btn secondary">Skills</a>
-            <a href="#projects" className="btn secondary">View My Work</a>
-            <a href="/Azim%20Ansari%20Resume.pdf" className="btn primary" download>Download Resume</a>
+        <div className="hero-inner">
+          <div className="hero-left">
+            <div className="hero-photo-wrap">
+              <img src="/azim1.png" alt="Azim Ansari" className="hero-photo" />
+              <span className="hero-photo-glow" />
+            </div>
+          </div>
+          <div className="hero-right">
+            <p className="eyebrow">Hello, I'm</p>
+            <h1 className="hero-title">Azim Ansari</h1>
+            <h2 className="hero-sub">And I'm a <span className="accent">Software Development Engineer</span></h2>
+            <p className="hero-desc">Node.js Developer | Specialized in JavaScript, Node.js, Express.js, MongoDB, AWS, React | Building high-performance applications.</p>
+
+            <div className="hero-actions">
+              <div className="hero-social">
+                <a href="https://github.com/azim-ansari-au9" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="social-btn">G</a>
+                <a href="https://www.linkedin.com/in/azim-ansari-37aa421a6/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="social-btn">in</a>
+                <a href="https://twitter.com/azimpanjwar" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="social-btn">t</a>
+              </div>
+              <div className="hero-cta">
+                <a href="#contact" className="btn primary">Contact Me</a>
+                <a href="#projects" className="btn secondary">View Work</a>
+                <a href="/Azim%20Ansari%20Resume.pdf" className="btn primary" download>Download Resume</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="stats-bar">
+          <div className="stat-item">
+            <div className="stat-number">{yearsExperience}+</div>
+            <div className="stat-label">Years of experience</div>
+          </div>
+          <div className="stat-sep" />
+          <div className="stat-item">
+            <div className="stat-number">{projectsCompleted}+</div>
+            <div className="stat-label">Projects completed</div>
+          </div>
+          <div className="stat-sep" />
+          <div className="stat-item">
+            <div className="stat-number">{technologiesMastered}+</div>
+            <div className="stat-label">Technologies mastered</div>
+          </div>
+          <div className="stat-sep" />
+          <div className="stat-item">
+            <div className="stat-number">{companiesWorkedWith}+</div>
+            <div className="stat-label">Companies worked with</div>
           </div>
         </div>
       </section>
