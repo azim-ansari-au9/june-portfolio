@@ -14,6 +14,9 @@ import FAQ from './FAQ';
 import ChatBot from './ChatBot';
 // import './ChatBot.css';
 
+// Stable hero roles constant for typewriter animation
+const HERO_ROLES = ['Software Development Engineer', 'Freelancer'];
+
 // const skills = [
 //   { icon: <FaNodeJs />, name: 'Node.js' },
 //   { icon: <FaDatabase />, name: 'MongoDB' },
@@ -163,6 +166,35 @@ function PortfolioContent() {
 
   // const maxMonths = Math.max(...workExperienceWithMonths.map(exp => exp.months));
 
+  // Typewriter animation for hero roles
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  React.useEffect(() => {
+    const fullText = HERO_ROLES[roleIndex % HERO_ROLES.length];
+    const typingSpeed = isDeleting ? 45 : 90;
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        const next = fullText.slice(0, displayText.length + 1);
+        setDisplayText(next);
+        if (next === fullText) {
+          setTimeout(() => setIsDeleting(true), 900);
+        }
+      } else {
+        const next = fullText.slice(0, displayText.length - 1);
+        setDisplayText(next);
+        if (next.length === 0) {
+          setIsDeleting(false);
+          setRoleIndex((i) => (i + 1) % HERO_ROLES.length);
+        }
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, roleIndex]);
+
   const sendEmail = (e) => {
     e.preventDefault();
     setSending(true);
@@ -193,21 +225,21 @@ function PortfolioContent() {
         title="Azim Ansari | Software Development Engineer (Node.js, JavaScript)"
         description="Portfolio and blog by Azim Ansari – Node.js developer specializing in backend development, scalable systems, Express, MongoDB, AWS, and React."
         path="/"
-        image="/azim.jpg"
+        image="/azim2.png"
       />
       <Navigation />
       <section id="home" className="hero">
         <div className="hero-inner">
           <div className="hero-left">
             <div className="hero-photo-wrap">
-              <img src="/azim1.png" alt="Azim Ansari" className="hero-photo" />
+              <img src="/azim2.png" alt="Azim Ansari" className="hero-photo" />
               <span className="hero-photo-glow" />
             </div>
           </div>
           <div className="hero-right">
             <p className="eyebrow">Hello, I'm</p>
             <h1 className="hero-title">Azim Ansari</h1>
-            <h2 className="hero-sub">And I'm a <span className="accent">Software Development Engineer</span></h2>
+            <h2 className="hero-sub">And I'm a <span className="accent"><span className="typewriter">{displayText}</span><span className="cursor">|</span></span></h2>
             <p className="hero-desc">Node.js Developer | Specialized in JavaScript, Node.js, Express.js, MongoDB, AWS, React | Building high-performance applications.</p>
 
             <div className="hero-actions">

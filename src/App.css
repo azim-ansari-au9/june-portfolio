@@ -82,6 +82,7 @@ body, html, #root, .portfolio-root {
   text-align: left;
   padding: 140px 1rem 2rem;
   position: relative;
+  /* background: url('../public/azim1.png') right 5% bottom 30% / 420px auto no-repeat; */
 }
 .hero-inner {
   width: 100%;
@@ -126,6 +127,9 @@ body, html, #root, .portfolio-root {
 .hero-title { font-size: 3rem; margin: 0 0 0.5rem 0; color: #ffffff; text-shadow: 0 0 20px rgba(255,255,255,0.08); }
 .hero-sub { font-size: 1.4rem; margin: 0 0 1rem 0; font-weight: 700; color: #b8c5d6; }
 .hero-sub .accent { color: #00d4ff; text-shadow: 0 0 16px rgba(0,212,255,0.35); }
+.typewriter { white-space: nowrap; }
+.cursor { display: inline-block; width: 1ch; color: #00d4ff; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
 .hero-desc { color: #b8c5d6; font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.2rem; }
 .hero-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
 .hero-social { display: inline-flex; gap: 0.5rem; }
