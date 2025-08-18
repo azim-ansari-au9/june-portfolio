@@ -159,7 +159,7 @@ function PortfolioContent() {
   const projectsCompleted = 15;
   // Count of technologies represented in Skills section (kept consistent with visible list)
   const technologiesMastered = 8;
-  const companiesWorkedWith = workExperience.length;
+  const companiesWorkedWith = 4;
 
   // const maxMonths = Math.max(...workExperienceWithMonths.map(exp => exp.months));
 
