@@ -223,7 +223,7 @@ function PortfolioContent() {
     <div className="portfolio-root">
       <SEOTags
         title="Azim Ansari | Software Development Engineer (Node.js, JavaScript)"
-        description="Portfolio and blog by Azim Ansari – Node.js developer specializing in backend development, scalable systems, Express, MongoDB, AWS, and React."
+        description="Portfolio and blog by Azim Ansari – Node.js developer specializing in backend development, scalable systems, Express, MongoDB, MYSQL, AWS, and React."
         path="/"
         image="/azim2.png"
       />
