@@ -223,7 +223,7 @@ function PortfolioContent() {
     <div className="portfolio-root">
       <SEOTags
         title="Azim Ansari | Software Development Engineer (Node.js, JavaScript)"
-        description="Portfolio and blog by Azim Ansari – Node.js developer specializing in backend development, scalable systems, Express, MongoDB, MYSQL, AWS, and React."
+        description="Portfolio and blog by Azim Ansari – Node.js developer specializing in backend development, scalable systems, Express, GraphQL, MongoDB, MYSQL, AWS, and React."
         path="/"
         image="/azim2.png"
       />
@@ -292,6 +292,7 @@ function PortfolioContent() {
         <div className="skills-grid">
           <div className="skill-card"><span className="skill-icon"><FaNodeJs title="Node.js" /></span>Node.js</div>
           <div className="skill-card"><span className="skill-icon"><FaServer title="Express" /></span>Express</div>
+          <div className="skill-card"><span className="skill-icon"><FaServer title="GraphQL" /></span>GraphQL</div>
           <div className="skill-card"><span className="skill-icon"><FaJs title="JavaScript" /></span>JavaScript (ES5, ES6)</div>
           <div className="skill-card"><span className="skill-icon"><FaJs title="TypeScript" /></span>TypeScript</div>
           <div className="skill-card"><span className="skill-icon"><FaPlug title="Socket.IO" /></span>Socket.IO</div>
