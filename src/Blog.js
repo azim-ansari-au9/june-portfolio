@@ -6,6 +6,509 @@ import AdSlot from "./AdSlot";
 
 const blogPosts = [
 	{
+		id: 5,
+		title: "Node.js and GraphQL: Building Modern APIs",
+		excerpt:
+			"Discover how to build powerful and flexible APIs using Node.js and GraphQL. Learn schema definitions, types, resolvers, and mutations with practical examples.",
+		content: `
+      <div style="text-align: center; margin: 2rem 0;">
+        <img src="/node-graphql-logo.svg" alt="Node.js and GraphQL" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);" />
+      </div>
+      
+      <p>GraphQL is a powerful query language that enables clients to request precisely the data they need, making it an excellent choice for building efficient and flexible APIs. When combined with Node.js, developers can create robust and scalable server-side applications that provide optimal data fetching capabilities.</p>
+      
+      <h3>Why Choose GraphQL with Node.js?</h3>
+      <ul>
+        <li><strong>Precise Data Fetching:</strong> Clients request only the data they need, reducing over-fetching</li>
+        <li><strong>Single Endpoint:</strong> Unlike REST APIs, GraphQL uses a single endpoint for all operations</li>
+        <li><strong>Strongly Typed:</strong> Schema-first approach ensures type safety and better development experience</li>
+        <li><strong>Real-time Features:</strong> Built-in support for subscriptions and real-time data</li>
+        <li><strong>Introspection:</strong> Self-documenting APIs with powerful development tools</li>
+      </ul>
+      
+      <h3>Setting Up Your Project</h3>
+      <p>Start by creating a new Node.js project and installing the necessary dependencies:</p>
+      
+      <pre style="background: #1e1e2e; padding: 1.5rem; border-radius: 8px; overflow-x: auto; border-left: 4px solid #00d4ff;"><code>mkdir node-graphql-server
+cd node-graphql-server
+npm init -y
+
+# Install core dependencies
+npm install express express-graphql graphql
+
+# Install development dependencies
+npm install --save-dev nodemon @types/graphql</code></pre>
+      
+      <h3>GraphQL Schema Definition</h3>
+      <p>The schema is the heart of any GraphQL API. It defines the types, queries, and mutations available:</p>
+      
+      <pre style="background: #1e1e2e; padding: 1.5rem; border-radius: 8px; overflow-x: auto; border-left: 4px solid #00d4ff;"><code>const { buildSchema } = require('graphql');
+
+// Define GraphQL Schema
+const schema = buildSchema(\`
+  # User Type Definition
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    posts: [Post!]!
+    createdAt: String!
+  }
+
+  # Post Type Definition
+  type Post {
+    id: ID!
+    title: String!
+    content: String!
+    author: User!
+    published: Boolean!
+    createdAt: String!
+    updatedAt: String!
+  }
+
+  # Input Types for Mutations
+  input CreateUserInput {
+    name: String!
+    email: String!
+  }
+
+  input CreatePostInput {
+    title: String!
+    content: String!
+    authorId: ID!
+    published: Boolean = false
+  }
+
+  input UpdatePostInput {
+    title: String
+    content: String
+    published: Boolean
+  }
+
+  # Query Operations
+  type Query {
+    # Get all users
+    users: [User!]!
+    
+    # Get user by ID
+    user(id: ID!): User
+    
+    # Get all posts
+    posts: [Post!]!
+    
+    # Get post by ID
+    post(id: ID!): Post
+    
+    # Get posts by author
+    postsByAuthor(authorId: ID!): [Post!]!
+    
+    # Search posts by title
+    searchPosts(query: String!): [Post!]!
+  }
+
+  # Mutation Operations
+  type Mutation {
+    # User mutations
+    createUser(input: CreateUserInput!): User!
+    updateUser(id: ID!, input: CreateUserInput!): User!
+    deleteUser(id: ID!): Boolean!
+    
+    # Post mutations
+    createPost(input: CreatePostInput!): Post!
+    updatePost(id: ID!, input: UpdatePostInput!): Post!
+    deletePost(id: ID!): Boolean!
+    publishPost(id: ID!): Post!
+  }
+
+  # Subscription Operations (for real-time features)
+  type Subscription {
+    postAdded: Post!
+    postUpdated: Post!
+    userJoined: User!
+  }
+\`);</code></pre>
+      
+      <h3>Implementing Resolvers</h3>
+      <p>Resolvers are functions that handle GraphQL operations. They fetch and manipulate data:</p>
+      
+      <pre style="background: #1e1e2e; padding: 1.5rem; border-radius: 8px; overflow-x: auto; border-left: 4px solid #00d4ff;"><code>// Sample data (in production, use a database)
+let users = [
+  {
+    id: '1',
+    name: 'John Doe',
+    email: 'john@example.com',
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: '2',
+    name: 'Jane Smith',
+    email: 'jane@example.com',
+    createdAt: new Date().toISOString()
+  }
+];
+
+let posts = [
+  {
+    id: '1',
+    title: 'Introduction to GraphQL',
+    content: 'GraphQL is a query language for APIs...',
+    authorId: '1',
+    published: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  }
+];
+
+// Resolver functions
+const resolvers = {
+  // Query resolvers
+  users: () => users,
+  
+  user: ({ id }) => users.find(user => user.id === id),
+  
+  posts: () => posts.map(post => ({
+    ...post,
+    author: users.find(user => user.id === post.authorId)
+  })),
+  
+  post: ({ id }) => {
+    const post = posts.find(post => post.id === id);
+    if (post) {
+      return {
+        ...post,
+        author: users.find(user => user.id === post.authorId)
+      };
+    }
+    return null;
+  },
+  
+  postsByAuthor: ({ authorId }) => 
+    posts
+      .filter(post => post.authorId === authorId)
+      .map(post => ({
+        ...post,
+        author: users.find(user => user.id === post.authorId)
+      })),
+  
+  searchPosts: ({ query }) => 
+    posts
+      .filter(post => 
+        post.title.toLowerCase().includes(query.toLowerCase()) ||
+        post.content.toLowerCase().includes(query.toLowerCase())
+      )
+      .map(post => ({
+        ...post,
+        author: users.find(user => user.id === post.authorId)
+      })),
+
+  // Mutation resolvers
+  createUser: ({ input }) => {
+    const newUser = {
+      id: String(users.length + 1),
+      ...input,
+      createdAt: new Date().toISOString()
+    };
+    users.push(newUser);
+    return newUser;
+  },
+  
+  updateUser: ({ id, input }) => {
+    const userIndex = users.findIndex(user => user.id === id);
+    if (userIndex === -1) {
+      throw new Error('User not found');
+    }
+    users[userIndex] = { ...users[userIndex], ...input };
+    return users[userIndex];
+  },
+  
+  deleteUser: ({ id }) => {
+    const userIndex = users.findIndex(user => user.id === id);
+    if (userIndex === -1) {
+      return false;
+    }
+    users.splice(userIndex, 1);
+    // Also delete user's posts
+    posts = posts.filter(post => post.authorId !== id);
+    return true;
+  },
+  
+  createPost: ({ input }) => {
+    const author = users.find(user => user.id === input.authorId);
+    if (!author) {
+      throw new Error('Author not found');
+    }
+    
+    const newPost = {
+      id: String(posts.length + 1),
+      ...input,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    posts.push(newPost);
+    
+    return {
+      ...newPost,
+      author
+    };
+  },
+  
+  updatePost: ({ id, input }) => {
+    const postIndex = posts.findIndex(post => post.id === id);
+    if (postIndex === -1) {
+      throw new Error('Post not found');
+    }
+    
+    posts[postIndex] = {
+      ...posts[postIndex],
+      ...input,
+      updatedAt: new Date().toISOString()
+    };
+    
+    return {
+      ...posts[postIndex],
+      author: users.find(user => user.id === posts[postIndex].authorId)
+    };
+  },
+  
+  deletePost: ({ id }) => {
+    const postIndex = posts.findIndex(post => post.id === id);
+    if (postIndex === -1) {
+      return false;
+    }
+    posts.splice(postIndex, 1);
+    return true;
+  },
+  
+  publishPost: ({ id }) => {
+    const postIndex = posts.findIndex(post => post.id === id);
+    if (postIndex === -1) {
+      throw new Error('Post not found');
+    }
+    
+    posts[postIndex].published = true;
+    posts[postIndex].updatedAt = new Date().toISOString();
+    
+    return {
+      ...posts[postIndex],
+      author: users.find(user => user.id === posts[postIndex].authorId)
+    };
+  }
+};</code></pre>
+      
+      <h3>Setting Up the Express Server</h3>
+      <p>Create a complete GraphQL server with Express:</p>
+      
+      <pre style="background: #1e1e2e; padding: 1.5rem; border-radius: 8px; overflow-x: auto; border-left: 4px solid #00d4ff;"><code>const express = require('express');
+const { graphqlHTTP } = require('express-graphql');
+const cors = require('cors');
+
+// Create Express app
+const app = express();
+
+// Enable CORS for frontend integration
+app.use(cors());
+
+// Setup GraphQL endpoint
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: resolvers,
+  graphiql: {
+    headerEditorEnabled: true,
+    defaultQuery: \`
+      # Welcome to GraphQL!
+      # Try these example queries:
+      
+      # Get all users
+      query GetUsers {
+        users {
+          id
+          name
+          email
+          createdAt
+        }
+      }
+      
+      # Get posts with authors
+      query GetPosts {
+        posts {
+          id
+          title
+          content
+          published
+          author {
+            name
+            email
+          }
+          createdAt
+        }
+      }
+    \`
+  },
+  customFormatErrorFn: (error) => ({
+    message: error.message,
+    locations: error.locations,
+    stack: error.stack ? error.stack.split('\\n') : [],
+    path: error.path,
+  })
+}));
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+// Start server
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(\`🚀 GraphQL Server running at http://localhost:\${PORT}/graphql\`);
+  console.log(\`📊 GraphiQL interface available for testing\`);
+});</code></pre>
+      
+      <h3>Example Queries and Mutations</h3>
+      <p>Here are some practical examples you can test in GraphiQL:</p>
+      
+      <h4>Query Examples:</h4>
+      <pre style="background: #1e1e2e; padding: 1.5rem; border-radius: 8px; overflow-x: auto; border-left: 4px solid #00d4ff;"><code># Get all users with their posts
+query GetUsersWithPosts {
+  users {
+    id
+    name
+    email
+    posts {
+      id
+      title
+      published
+      createdAt
+    }
+  }
+}
+
+# Search for posts
+query SearchPosts {
+  searchPosts(query: "GraphQL") {
+    id
+    title
+    content
+    author {
+      name
+    }
+  }
+}
+
+# Get specific post with author details
+query GetPostDetail {
+  post(id: "1") {
+    id
+    title
+    content
+    published
+    author {
+      id
+      name
+      email
+    }
+    createdAt
+    updatedAt
+  }
+}</code></pre>
+      
+      <h4>Mutation Examples:</h4>
+      <pre style="background: #1e1e2e; padding: 1.5rem; border-radius: 8px; overflow-x: auto; border-left: 4px solid #00d4ff;"><code># Create a new user
+mutation CreateUser {
+  createUser(input: {
+    name: "Alice Johnson"
+    email: "alice@example.com"
+  }) {
+    id
+    name
+    email
+    createdAt
+  }
+}
+
+# Create a new post
+mutation CreatePost {
+  createPost(input: {
+    title: "Getting Started with Node.js"
+    content: "Node.js is a powerful runtime for building server-side applications..."
+    authorId: "1"
+    published: true
+  }) {
+    id
+    title
+    content
+    published
+    author {
+      name
+    }
+    createdAt
+  }
+}
+
+# Update an existing post
+mutation UpdatePost {
+  updatePost(
+    id: "1"
+    input: {
+      title: "Advanced GraphQL Concepts"
+      published: true
+    }
+  ) {
+    id
+    title
+    content
+    published
+    updatedAt
+  }
+}
+
+# Delete a post
+mutation DeletePost {
+  deletePost(id: "1")
+}</code></pre>
+      
+      <h3>Best Practices & Advanced Features</h3>
+      <ul>
+        <li><strong>Error Handling:</strong> Implement custom error classes and proper error responses</li>
+        <li><strong>Authentication:</strong> Add JWT token validation and role-based access control</li>
+        <li><strong>Database Integration:</strong> Use ORMs like Prisma or TypeORM for production applications</li>
+        <li><strong>Caching:</strong> Implement DataLoader for efficient data fetching and caching</li>
+        <li><strong>Rate Limiting:</strong> Protect your API from abuse with query complexity analysis</li>
+        <li><strong>Subscriptions:</strong> Add real-time features using GraphQL subscriptions</li>
+        <li><strong>Testing:</strong> Write comprehensive tests for your resolvers and schema</li>
+      </ul>
+      
+      <h3>Production Deployment Script</h3>
+      <pre style="background: #1e1e2e; padding: 1.5rem; border-radius: 8px; overflow-x: auto; border-left: 4px solid #00d4ff;"><code>// package.json scripts
+{
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "test": "jest",
+    "build": "npm run test && npm run lint",
+    "lint": "eslint src/",
+    "docker:build": "docker build -t my-graphql-app .",
+    "docker:run": "docker run -p 4000:4000 my-graphql-app"
+  }
+}
+
+// Dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+EXPOSE 4000
+CMD ["npm", "start"]</code></pre>
+      
+      <p>This comprehensive guide provides you with everything needed to build production-ready GraphQL APIs with Node.js. The combination offers powerful data fetching capabilities, type safety, and excellent developer experience for modern web applications.</p>
+    `,
+		date: "2024-01-20",
+		readTime: "12 min read",
+		category: "API Development",
+		tags: ["Node.js", "GraphQL", "API", "Backend"],
+	},
+	{
 		id: 1,
 		title: "Building Scalable Node.js Applications",
 		excerpt:
