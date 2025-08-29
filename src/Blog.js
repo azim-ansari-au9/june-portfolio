@@ -503,8 +503,8 @@ CMD ["npm", "start"]</code></pre>
       
       <p>This comprehensive guide provides you with everything needed to build production-ready GraphQL APIs with Node.js. The combination offers powerful data fetching capabilities, type safety, and excellent developer experience for modern web applications.</p>
     `,
-		date: "2024-01-20",
-		readTime: "12 min read",
+		date: "2024-08-29",
+		readTime: "20 min read",
 		category: "API Development",
 		tags: ["Node.js", "GraphQL", "API", "Backend"],
 	},
