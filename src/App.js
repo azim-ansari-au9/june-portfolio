@@ -240,7 +240,7 @@ function PortfolioContent() {
             <p className="eyebrow">Hello, I'm</p>
             <h1 className="hero-title">Azim Ansari</h1>
             <h2 className="hero-sub">And I'm a <span className="accent"><span className="typewriter">{displayText}</span><span className="cursor">|</span></span></h2>
-            <p className="hero-desc">Node.js Developer | Specialized in JavaScript, Node.js, Express.js, MongoDB, GraphQL,AWS, React | Building high-performance applications.</p>
+            <p className="hero-desc">Node.js Developer | Specialized in JavaScript, Node.js, Express.js, MongoDB, GraphQL, AWS, React | Building high-performance applications.</p>
 
             <div className="hero-actions">
               <div className="hero-social">
