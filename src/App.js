@@ -240,7 +240,7 @@ function PortfolioContent() {
             <p className="eyebrow">Hello, I'm</p>
             <h1 className="hero-title">Azim Ansari</h1>
             <h2 className="hero-sub">And I'm a <span className="accent"><span className="typewriter">{displayText}</span><span className="cursor">|</span></span></h2>
-            <p className="hero-desc">Node.js Developer | Specialized in JavaScript, Node.js, Express.js, MongoDB, AWS, React | Building high-performance applications.</p>
+            <p className="hero-desc">Node.js Developer | Specialized in JavaScript, Node.js, Express.js, MongoDB, GraphQL,AWS, React | Building high-performance applications.</p>
 
             <div className="hero-actions">
               <div className="hero-social">
@@ -283,7 +283,7 @@ function PortfolioContent() {
         <h2>About Me</h2>
         <div className="about-content">
           <div className="about-text">
-            <p>Node.js Developer with approximately 5 years of experience at NativeByte Software LLP, specializing in backend development with Node.js, MongoDB, Express, MySQL, and Socket.io. Developed and architected systems for UPSC and network marketing concepts, demonstrating proficiency in core software engineering concepts and system design. Seeking the Node.js Developer (Backend) position to contribute to both product-based and service-based IT industries.</p>
+            <p>Node.js Developer with approximately 5 years of experience at NativeByte Software LLP, specializing in backend development with Node.js, MongoDB, Express, MySQL, GraphQL and Socket.io. Developed and architected systems for UPSC and network marketing concepts, demonstrating proficiency in core software engineering concepts and system design. Seeking the Node.js Developer (Backend) position to contribute to both product-based and service-based IT industries.</p>
           </div>
         </div>
       </section>
